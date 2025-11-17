@@ -14,6 +14,8 @@ COMMITTEE_ROLES = {
     "Technological Advancements Committee": "💻",
     "Graduate Affairs Committee": "🎓",
     "Academics and Research Committee": "📚",
+    "Doesn't matter...Connect": "🤝",
+
 }
 
 
@@ -732,7 +734,7 @@ async def showroles(interaction: discord.Interaction):
     Shows buttons for users to self-assign/remove committee roles.
     """
     await interaction.response.send_message(
-        "📌 Select the committee(s) you want to join by clicking the buttons below:\n\nConnections Committee: 🌐\nTechnological Advancements Committee: 💻\nGraduate Affairs Committee: 🎓\nAcademics and Research Committee: 📚 \n \u200B",
+        "📌 Select the committee(s) you want to join by clicking the buttons below:\n\nConnections Committee: 🌐\nTechnological Advancements Committee: 💻\nGraduate Affairs Committee: 🎓\nAcademics and Research Committee: 📚 \nDoesn't matter...Connect: 🤝 \n \u200B",
         view=RoleView()
     )
 
