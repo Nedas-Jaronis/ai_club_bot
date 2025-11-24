@@ -1,6 +1,6 @@
 import os
 import discord
-from discord import app_commands
+from discord import app_commands, File
 from discord.ext import commands
 from discord.ui import View, Button
 import psycopg2
@@ -8,6 +8,7 @@ from typing import Optional
 import io
 import openpyxl
 from discord import ui, Interaction
+from poster import *
 
 COMMITTEE_ROLES = {
     "Campus and Community Connections Committee": "🌐",
@@ -737,5 +738,35 @@ async def showroles(interaction: discord.Interaction):
         "📌 Select the committee(s) you want to join by clicking the buttons below:\n\nConnections Committee: 🌐\nTechnological Advancements Committee: 💻\nGraduate Affairs Committee: 🎓\nAcademics and Research Committee: 📚 \nDoesn't matter...Connect: 🤝 \n \u200B",
         view=RoleView()
     )
+@bot.tree.command(name="flyer", description="Generate a flyer")
+@app_commands.describe(
+    title="The title of the event",
+    subtitle="The subtitle of the event",
+    desc="The description of the event",
+    date="Date of the event",
+    time="Time of the event",
+    location="Location of the event",
+    icon_desc="Description of the icon on the flyer"
+)
+async def flyer(
+    interaction: discord.Interaction,
+    title: str,
+    subtitle: str,
+    desc: str,
+    date: str,
+    time: str,
+    location: str,
+    icon_desc: str
+):
+    try:
+        flyer_path = generate_flyer_image(title, subtitle, desc, date, time, location, icon_desc)
+        if flyer_path and os.path.exists(flyer_path):
+            await interaction.response.send_message(file=File(flyer_path))
+        else:
+            await interaction.response.send_message("Failed to generate flyer.")
+    except Exception:
+        import traceback
+        traceback.print_exc()
+        await interaction.response.send_message("An error occurred while generating the flyer.")
 
 bot.run(DISCORD_TOKEN)
